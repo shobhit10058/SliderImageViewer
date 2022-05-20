@@ -1,4 +1,4 @@
-let imagesData;
+let imagesData = [];
 let imageUrlPointer = 0;
 
 const highlightedUrlProp = {
@@ -10,6 +10,8 @@ const normalUrlProp = {
   backgroundColor: "white",
   color: "black",
 };
+
+const maxCharacters = 40;
 
 const getData = async () => {
   await fetch("./data.json")
@@ -36,6 +38,7 @@ const PreviewSelectedImage = () => {
 };
 
 const updateCompsWithPointerChange = (newUrlPointer) => {
+  if (newUrlPointer === imageUrlPointer) return;
   Object.assign(
     document.querySelector(`#image-${newUrlPointer}`).style,
     highlightedUrlProp
