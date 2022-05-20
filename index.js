@@ -23,14 +23,19 @@ await getData();
 
 const PreviewSelectedImage = () => {
   const image = imagesData[imageUrlPointer];
-  document.querySelector(".image_container").innerHTML = `
+  const imageContainer = document.querySelector(".image_container");
+  imageContainer.innerHTML = `
             <img src="${image.previewImage}"/>
             <input type="text" value="${image.title}"/>
         `;
+  imageContainer.querySelector("input").addEventListener("change", (event) => {
+    console.log("called");
+    document.querySelector(`#image-${imageUrlPointer} p`).innerHTML =
+      event.target.value;
+  });
 };
 
 const updateCompsWithPointerChange = (newUrlPointer) => {
-  console.log(newUrlPointer);
   Object.assign(
     document.querySelector(`#image-${newUrlPointer}`).style,
     highlightedUrlProp
