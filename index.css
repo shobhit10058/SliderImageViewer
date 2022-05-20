@@ -23,11 +23,6 @@
 
 .image_url_title {
   margin: 0;
-  text-overflow: ellipsis;
-  word-wrap: break-word;
-  overflow: hidden;
-  line-height: 2.5em;
-  max-height: 2.5em;
 }
 
 .image_url_preview {

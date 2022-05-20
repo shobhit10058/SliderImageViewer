@@ -11,9 +11,18 @@ const normalUrlProp = {
   color: "black",
 };
 
-const maxCharacters = 40;
+const maxCharacters = 35;
 
-const getData = async () => {
+const ShortenText = (string) => {
+  if (string.length < maxCharacters) return string;
+  return (
+    string.substring(0, maxCharacters / 2 - 1) +
+    "..." +
+    string.substring(string.length - maxCharacters / 2 + 2, string.length)
+  );
+};
+
+const GetData = async () => {
   await fetch("./data.json")
     .then((response) => response.json())
     .then((data) => {
@@ -21,7 +30,7 @@ const getData = async () => {
     })
     .catch((err) => console.log(err));
 };
-await getData();
+await GetData();
 
 const PreviewSelectedImage = () => {
   const image = imagesData[imageUrlPointer];
@@ -33,11 +42,11 @@ const PreviewSelectedImage = () => {
   imageContainer.querySelector("input").addEventListener("change", (event) => {
     imagesData[imageUrlPointer].title = event.target.value;
     document.querySelector(`#image-${imageUrlPointer} p`).innerHTML =
-      event.target.value;
+      ShortenText(event.target.value);
   });
 };
 
-const updateCompsWithPointerChange = (newUrlPointer) => {
+const UpdateCompsWithPointerChange = (newUrlPointer) => {
   if (newUrlPointer === imageUrlPointer) return;
   Object.assign(
     document.querySelector(`#image-${newUrlPointer}`).style,
@@ -51,7 +60,7 @@ const updateCompsWithPointerChange = (newUrlPointer) => {
   PreviewSelectedImage();
 };
 
-const initializeApp = () => {
+const InitializeApp = () => {
   const imageFolder = document.querySelector(".image_folder");
   imagesData.forEach((image, index) => {
     const imageUrl = document.createElement("li");
@@ -61,11 +70,11 @@ const initializeApp = () => {
       let element = event.target;
       while (element.className !== "image_url") element = element.parentNode;
       const newUrlPointer = element.id.split("-")[1];
-      updateCompsWithPointerChange(newUrlPointer);
+      UpdateCompsWithPointerChange(newUrlPointer);
     });
     imageUrl.innerHTML = `
             <img src="${image.previewImage}" class="image_url_preview"/>
-            <p class="image_url_title">${image.title}</p>
+            <p class="image_url_title">${ShortenText(image.title)}</p>
         `;
     if (index === imageUrlPointer) {
       Object.assign(imageUrl.style, highlightedUrlProp);
@@ -78,14 +87,14 @@ const initializeApp = () => {
   document.body.addEventListener("keydown", (event) => {
     const pressedKey = event.key;
     if (pressedKey === "ArrowDown") {
-      updateCompsWithPointerChange((imageUrlPointer + 1) % imagesData.length);
+      UpdateCompsWithPointerChange((imageUrlPointer + 1) % imagesData.length);
     }
     if (pressedKey === "ArrowUp") {
-      updateCompsWithPointerChange(
+      UpdateCompsWithPointerChange(
         (imageUrlPointer - 1 + imagesData.length) % imagesData.length
       );
     }
   });
 };
 
-initializeApp();
+InitializeApp();
