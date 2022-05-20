@@ -1,44 +1,52 @@
-
-
-.gallery{
-    margin: 40px auto;
-    display: flex;
-    justify-content: center;
+.gallery {
+  margin: 40px auto;
+  display: flex;
+  justify-content: center;
 }
 
-.image_folder{
-    list-style: none;
-    max-width: 300px;
-    padding: 0;
+.image_folder {
+  list-style: none;
+  max-width: 300px;
+  padding: 0;
+  margin: 0;
 }
 
-.image_url{
-    padding: 6px;
-    display: flex;
-    height: 40px;
-    border-radius: 5px;
-    margin-bottom: 6px;
+.image_url {
+  padding: 6px;
+  display: flex;
+  height: 40px;
+  border-radius: 5px;
+  margin-bottom: 6px;
 }
 
-.image_url_title{
-    margin: 0;
-    text-overflow: ellipsis;
-    word-wrap: break-word;
-    overflow: hidden;
-    line-height: 2.5em;
-    max-height: 2.5em;
+.image_url_title {
+  margin: 0;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  overflow: hidden;
+  line-height: 2.5em;
+  max-height: 2.5em;
 }
 
-.image_url_preview{
-    width: 40px;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-    margin-right: 10px;
-    border-radius: 5px;
+.image_url_preview {
+  width: 40px;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  margin-right: 10px;
+  border-radius: 5px;
 }
 
-.image_container{
-    
+.image_container img {
+  height: 700px;
+  width: 500px;
+  object-fit: cover;
+  border-radius: 7px;
 }
 
-.
+.image_container input {
+  display: block;
+  width: 100%;
+  font-size: medium;
+  border: none;
+  padding: 5px;
+}
