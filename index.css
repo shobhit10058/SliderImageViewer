@@ -9,6 +9,7 @@
   max-width: 300px;
   padding: 0;
   margin: 0;
+  margin-right: 10px;
 }
 
 .image_url {
@@ -49,4 +50,6 @@
   font-size: medium;
   border: none;
   padding: 5px;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.7);
 }

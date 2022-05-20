@@ -1,4 +1,15 @@
 let imagesData;
+let imageUrlPointer = 0;
+
+const highlightedUrlProp = {
+  backgroundColor: "#2459c9",
+  color: "white",
+};
+
+const normalUrlProp = {
+  backgroundColor: "white",
+  color: "black",
+};
 
 const getData = async () => {
   await fetch("./data.json")
@@ -9,41 +20,64 @@ const getData = async () => {
     .catch((err) => console.log(err));
 };
 await getData();
-console.log(imagesData);
-
-const imageFolder = document.querySelector(".image_folder");
-imagesData.forEach((image, index) => {
-  const imageUrl = document.createElement("li");
-  imageUrl.className = "image_url";
-  imageUrl.id = `image-${index}`;
-  // imageUrl.addEventListener('click', )
-  imageUrl.innerHTML = `
-        <img src="${image.previewImage}" class="image_url_preview"/>
-        <p class="image_url_title">${image.title}</p>
-    `;
-  imageFolder.append(imageUrl);
-});
-
-const imageUrlPointer = 1;
 
 const PreviewSelectedImage = () => {
   const image = imagesData[imageUrlPointer];
   document.querySelector(".image_container").innerHTML = `
-        <img src="${image.previewImage}"/>
-        <input type="text" value="${image.title}"/>
-    `;
+            <img src="${image.previewImage}"/>
+            <input type="text" value="${image.title}"/>
+        `;
 };
 
-PreviewSelectedImage();
+const updateCompsWithPointerChange = (newUrlPointer) => {
+  console.log(newUrlPointer);
+  Object.assign(
+    document.querySelector(`#image-${newUrlPointer}`).style,
+    highlightedUrlProp
+  );
+  Object.assign(
+    document.querySelector(`#image-${imageUrlPointer}`).style,
+    normalUrlProp
+  );
+  imageUrlPointer = newUrlPointer;
+  PreviewSelectedImage();
+};
 
-document.body.addEventListener("keydown", (event) => {
-  const pressedKey = event.key;
-  if (pressedKey === "ArrowDown") {
-    imageUrlPointer += 1;
-    PreviewSelectedImage();
-  }
-  if (pressedKey === "ArrowUp") {
-    imageUrlPointer -= 1;
-    PreviewSelectedImage();
-  }
-});
+const initializeApp = () => {
+  const imageFolder = document.querySelector(".image_folder");
+  imagesData.forEach((image, index) => {
+    const imageUrl = document.createElement("li");
+    imageUrl.className = "image_url";
+    imageUrl.id = `image-${index}`;
+    imageUrl.addEventListener("click", (event) => {
+      let element = event.target;
+      while (element.className !== "image_url") element = element.parentNode;
+      const newUrlPointer = element.id.split("-")[1];
+      updateCompsWithPointerChange(newUrlPointer);
+    });
+    imageUrl.innerHTML = `
+            <img src="${image.previewImage}" class="image_url_preview"/>
+            <p class="image_url_title">${image.title}</p>
+        `;
+    if (index === imageUrlPointer) {
+      Object.assign(imageUrl.style, highlightedUrlProp);
+    }
+    imageFolder.append(imageUrl);
+  });
+
+  PreviewSelectedImage();
+
+  document.body.addEventListener("keydown", (event) => {
+    const pressedKey = event.key;
+    if (pressedKey === "ArrowDown") {
+      updateCompsWithPointerChange((imageUrlPointer + 1) % imagesData.length);
+    }
+    if (pressedKey === "ArrowUp") {
+      updateCompsWithPointerChange(
+        (imageUrlPointer - 1 + imagesData.length) % imagesData.length
+      );
+    }
+  });
+};
+
+initializeApp();
