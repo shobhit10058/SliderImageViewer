@@ -1,22 +1,37 @@
-*, *::after, *::before{
-    box-sizing: border-box;
-}
+
 
 .gallery{
     margin: 40px auto;
-    border: 1px solid black;
+    display: flex;
+    justify-content: center;
 }
 
 .image_folder{
-
+    list-style: none;
+    max-width: 300px;
+    padding: 0;
 }
 
-.image_file{
-    
+.image_url{
+    padding: 6px;
+    display: flex;
+    height: 50px;
+    border-radius: 5px;
+    margin-bottom: 6px;
+}
+
+.image_url_title{
+    overflow: hidden;
+}
+
+.image_url_preview{
+    width: 50px;
+    margin-right: 10px;
+    border-radius: 5px;
 }
 
 .image_container{
-
+    
 }
 
 .
