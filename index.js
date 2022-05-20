@@ -29,7 +29,7 @@ const PreviewSelectedImage = () => {
             <input type="text" value="${image.title}"/>
         `;
   imageContainer.querySelector("input").addEventListener("change", (event) => {
-    console.log("called");
+    imagesData[imageUrlPointer].title = event.target.value;
     document.querySelector(`#image-${imageUrlPointer} p`).innerHTML =
       event.target.value;
   });
