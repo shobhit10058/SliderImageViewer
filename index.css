@@ -1,0 +1,22 @@
+*, *::after, *::before{
+    box-sizing: border-box;
+}
+
+.gallery{
+    margin: 40px auto;
+    border: 1px solid black;
+}
+
+.folder{
+
+}
+
+.file{
+    
+}
+
+.image_container{
+
+}
+
+.
