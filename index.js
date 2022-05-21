@@ -47,6 +47,7 @@ const PreviewSelectedImage = () => {
 };
 
 const UpdateCompsWithPointerChange = (newUrlPointer) => {
+  newUrlPointer = parseInt(newUrlPointer);
   if (newUrlPointer === imageUrlPointer) return;
   Object.assign(
     document.querySelector(`#image-${newUrlPointer}`).style,
@@ -87,6 +88,7 @@ const InitializeApp = () => {
   document.body.addEventListener("keydown", (event) => {
     const pressedKey = event.key;
     if (pressedKey === "ArrowDown") {
+      console.log(imageUrlPointer);
       UpdateCompsWithPointerChange((imageUrlPointer + 1) % imagesData.length);
     }
     if (pressedKey === "ArrowUp") {
