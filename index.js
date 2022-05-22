@@ -42,7 +42,7 @@ const PreviewSelectedImage = () => {
 
   imageContainer.querySelector("input").addEventListener("change", (event) => {
     imagesData[sidebarLinePointer].title = event.target.value;
-    document.querySelector(`#image-${sidebarLinePointer} p`).innerHTML =
+    document.querySelector(`#image-${sidebarLinePointer} div`).innerHTML =
       ShortenText(event.target.value);
   });
 };
