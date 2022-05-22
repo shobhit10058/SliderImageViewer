@@ -1,9 +1,9 @@
-const HIGHLIGHTED_SIDEBAR_file_PROP = {
+const HIGHLIGHTED_SIDEBAR_FILE_PROP = {
   backgroundColor: "#2459c9",
   color: "white",
 };
 
-const NORMAL_SIDEBAR_file_PROP = {
+const NORMAL_SIDEBAR_FILE_PROP = {
   backgroundColor: "white",
   color: "black",
 };
@@ -59,12 +59,12 @@ const UpdateCompsWithPointerChange = (newSidebarLinePointer) => {
 
   Object.assign(
     document.querySelector(`#image-${newSidebarLinePointer}`).style,
-    HIGHLIGHTED_SIDEBAR_file_PROP
+    HIGHLIGHTED_SIDEBAR_FILE_PROP
   );
 
   Object.assign(
     document.querySelector(`#image-${sidebarLinePointer}`).style,
-    NORMAL_SIDEBAR_file_PROP
+    NORMAL_SIDEBAR_FILE_PROP
   );
 
   sidebarLinePointer = newSidebarLinePointer;
@@ -97,7 +97,7 @@ const InitializeApp = () => {
         `;
 
     if (index === sidebarLinePointer) {
-      Object.assign(imagefile.style, HIGHLIGHTED_SIDEBAR_file_PROP);
+      Object.assign(imagefile.style, HIGHLIGHTED_SIDEBAR_FILE_PROP);
     }
 
     imageFolder.append(imagefile);
