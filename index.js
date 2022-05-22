@@ -11,10 +11,11 @@ const NORMAL_SIDEBAR_FILE_PROP = {
 let imagesData = [];
 let sidebarLinePointer = 0;
 
-const ShortenText = (string) => {
-  const splitIndex = Math.floor(string.length * 0.6);
+const SplitAndShortenFileName = (string) => {
+  const splitIndex = Math.floor(string.length * 0.5);
   const firstPart = string.substr(0, splitIndex);
-  const secondPart = string.substr(splitIndex);
+  // inserting a LRM character for fixing bug with direction rtl
+  const secondPart = "&lrm;" + string.substr(splitIndex) + "&lrm;";
   return `
     <span class="image_file_title_left"> ${firstPart}</span>
     <span class="image_file_title_right"> ${secondPart}</span>
@@ -43,7 +44,7 @@ const PreviewSelectedImage = () => {
   imageContainer.querySelector("input").addEventListener("change", (event) => {
     imagesData[sidebarLinePointer].title = event.target.value;
     document.querySelector(`#image-${sidebarLinePointer} div`).innerHTML =
-      ShortenText(event.target.value);
+      SplitAndShortenFileName(event.target.value);
   });
 };
 
@@ -88,7 +89,9 @@ const InitializeApp = () => {
 
     imagefile.innerHTML = `
             <img src="${image.previewImage}" class="image_file_preview"/>
-            <div class="image_file_title">${ShortenText(image.title)}</div>
+            <div class="image_file_title">${SplitAndShortenFileName(
+              image.title
+            )}</div>
         `;
 
     if (index === sidebarLinePointer) {
