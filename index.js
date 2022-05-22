@@ -8,22 +8,17 @@ const NORMAL_SIDEBAR_FILE_PROP = {
   color: "black",
 };
 
-const MAX_CHARACTERS_IN_SIDEBAR_LINE = 34;
-
 let imagesData = [];
 let sidebarLinePointer = 0;
 
 const ShortenText = (string) => {
-  if (string.length <= MAX_CHARACTERS_IN_SIDEBAR_LINE) return string;
-
-  return (
-    string.substring(0, MAX_CHARACTERS_IN_SIDEBAR_LINE / 2 - 1) +
-    "..." +
-    string.substring(
-      string.length - MAX_CHARACTERS_IN_SIDEBAR_LINE / 2 + 2,
-      string.length
-    )
-  );
+  const splitIndex = Math.floor(string.length * 0.6);
+  const firstPart = string.substr(0, splitIndex);
+  const secondPart = string.substr(splitIndex);
+  return `
+    <span class="image_file_title_left"> ${firstPart}</span>
+    <span class="image_file_title_right"> ${secondPart}</span>
+  `;
 };
 
 const GetData = async () => {
@@ -93,7 +88,7 @@ const InitializeApp = () => {
 
     imagefile.innerHTML = `
             <img src="${image.previewImage}" class="image_file_preview"/>
-            <p class="image_file_title">${ShortenText(image.title)}</p>
+            <div class="image_file_title">${ShortenText(image.title)}</div>
         `;
 
     if (index === sidebarLinePointer) {

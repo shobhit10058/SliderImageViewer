@@ -23,12 +23,24 @@
 
 .image_file_title {
   margin: 0;
-  text-overflow: ellipsis;
-  word-wrap: break-word;
+  display: flex;
+  height: max-content;
+  transform: translateY(50%);
+}
+
+.image_file_title_left {
   overflow: hidden;
-  line-height: 2.5em;
-  max-height: 2.5em;
-  font-size: 16px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 120px;
+}
+
+.image_file_title_right {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: clip;
+  direction: rtl;
+  max-width: 120px;
 }
 
 .image_file_preview {
