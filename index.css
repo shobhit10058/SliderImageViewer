@@ -12,7 +12,7 @@
   margin-right: 10px;
 }
 
-.image_url {
+.image_file {
   padding: 6px;
   display: flex;
   height: 40px;
@@ -21,7 +21,7 @@
   cursor: pointer;
 }
 
-.image_url_title {
+.image_file_title {
   margin: 0;
   text-overflow: ellipsis;
   word-wrap: break-word;
@@ -30,7 +30,7 @@
   max-height: 2.5em;
 }
 
-.image_url_preview {
+.image_file_preview {
   width: 40px;
   aspect-ratio: 1 / 1;
   object-fit: cover;

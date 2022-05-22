@@ -1,24 +1,28 @@
-let imagesData = [];
-let imageUrlPointer = 0;
-
-const highlightedUrlProp = {
+const HIGHLIGHTED_SIDEBAR_file_PROP = {
   backgroundColor: "#2459c9",
   color: "white",
 };
 
-const normalUrlProp = {
+const NORMAL_SIDEBAR_file_PROP = {
   backgroundColor: "white",
   color: "black",
 };
 
-const maxCharacters = 35;
+const MAX_CHARACTERS_IN_SIDEBAR_LINE = 34;
+
+let imagesData = [];
+let sidebarLinePointer = 0;
 
 const ShortenText = (string) => {
-  if (string.length < maxCharacters) return string;
+  if (string.length <= MAX_CHARACTERS_IN_SIDEBAR_LINE) return string;
+
   return (
-    string.substring(0, maxCharacters / 2 - 1) +
+    string.substring(0, MAX_CHARACTERS_IN_SIDEBAR_LINE / 2 - 1) +
     "..." +
-    string.substring(string.length - maxCharacters / 2 + 2, string.length)
+    string.substring(
+      string.length - MAX_CHARACTERS_IN_SIDEBAR_LINE / 2 + 2,
+      string.length
+    )
   );
 };
 
@@ -30,73 +34,93 @@ const GetData = async () => {
     })
     .catch((err) => console.log(err));
 };
-await GetData();
 
 const PreviewSelectedImage = () => {
-  const image = imagesData[imageUrlPointer];
+  const image = imagesData[sidebarLinePointer];
+
   const imageContainer = document.querySelector(".image_container");
+
   imageContainer.innerHTML = `
             <img src="${image.previewImage}"/>
             <input type="text" value="${image.title}"/>
         `;
+
   imageContainer.querySelector("input").addEventListener("change", (event) => {
-    imagesData[imageUrlPointer].title = event.target.value;
-    document.querySelector(`#image-${imageUrlPointer} p`).innerHTML =
+    imagesData[sidebarLinePointer].title = event.target.value;
+    document.querySelector(`#image-${sidebarLinePointer} p`).innerHTML =
       ShortenText(event.target.value);
   });
 };
 
-const UpdateCompsWithPointerChange = (newUrlPointer) => {
-  newUrlPointer = parseInt(newUrlPointer);
-  if (newUrlPointer === imageUrlPointer) return;
+const UpdateCompsWithPointerChange = (newSidebarLinePointer) => {
+  newSidebarLinePointer = parseInt(newSidebarLinePointer);
+
+  if (newSidebarLinePointer === sidebarLinePointer) return;
+
   Object.assign(
-    document.querySelector(`#image-${newUrlPointer}`).style,
-    highlightedUrlProp
+    document.querySelector(`#image-${newSidebarLinePointer}`).style,
+    HIGHLIGHTED_SIDEBAR_file_PROP
   );
+
   Object.assign(
-    document.querySelector(`#image-${imageUrlPointer}`).style,
-    normalUrlProp
+    document.querySelector(`#image-${sidebarLinePointer}`).style,
+    NORMAL_SIDEBAR_file_PROP
   );
-  imageUrlPointer = newUrlPointer;
+
+  sidebarLinePointer = newSidebarLinePointer;
+
   PreviewSelectedImage();
 };
 
 const InitializeApp = () => {
   const imageFolder = document.querySelector(".image_folder");
+
   imagesData.forEach((image, index) => {
-    const imageUrl = document.createElement("li");
-    imageUrl.className = "image_url";
-    imageUrl.id = `image-${index}`;
-    imageUrl.addEventListener("click", (event) => {
+    const imagefile = document.createElement("li");
+
+    imagefile.className = "image_file";
+    imagefile.id = `image-${index}`;
+
+    imagefile.addEventListener("click", (event) => {
       let element = event.target;
-      while (element.className !== "image_url") element = element.parentNode;
-      const newUrlPointer = element.id.split("-")[1];
-      UpdateCompsWithPointerChange(newUrlPointer);
+
+      while (element.className !== "image_file") element = element.parentNode;
+
+      const newSidebarLinePointer = element.id.split("-")[1];
+
+      UpdateCompsWithPointerChange(newSidebarLinePointer);
     });
-    imageUrl.innerHTML = `
-            <img src="${image.previewImage}" class="image_url_preview"/>
-            <p class="image_url_title">${ShortenText(image.title)}</p>
+
+    imagefile.innerHTML = `
+            <img src="${image.previewImage}" class="image_file_preview"/>
+            <p class="image_file_title">${ShortenText(image.title)}</p>
         `;
-    if (index === imageUrlPointer) {
-      Object.assign(imageUrl.style, highlightedUrlProp);
+
+    if (index === sidebarLinePointer) {
+      Object.assign(imagefile.style, HIGHLIGHTED_SIDEBAR_file_PROP);
     }
-    imageFolder.append(imageUrl);
+
+    imageFolder.append(imagefile);
   });
 
   PreviewSelectedImage();
 
   document.body.addEventListener("keydown", (event) => {
     const pressedKey = event.key;
+
     if (pressedKey === "ArrowDown") {
-      console.log(imageUrlPointer);
-      UpdateCompsWithPointerChange((imageUrlPointer + 1) % imagesData.length);
+      UpdateCompsWithPointerChange(
+        (sidebarLinePointer + 1) % imagesData.length
+      );
     }
+
     if (pressedKey === "ArrowUp") {
       UpdateCompsWithPointerChange(
-        (imageUrlPointer - 1 + imagesData.length) % imagesData.length
+        (sidebarLinePointer - 1 + imagesData.length) % imagesData.length
       );
     }
   });
 };
 
+await GetData();
 InitializeApp();
