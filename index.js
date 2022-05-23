@@ -66,8 +66,20 @@ const SplitAndShortenFileName = (imageFileTitleElem, string) => {
   }
 
   if (leftIndex <= rightIndex) {
-    leftPartFileTitle.innerHTML =
-      leftPartFileTitle.innerHTML.slice(0, -3) + "...";
+    let currLeftString = leftPartFileTitle.innerHTML.slice(0, -3);
+    leftPartFileTitle.innerHTML = currLeftString + "...";
+    leftIndex -= 3;
+    while (
+      rightIndex >= leftIndex &&
+      leftPartFileTitle.clientWidth < availableLeftWidth
+    ) {
+      leftPartFileTitle.innerHTML = currLeftString + "...";
+      currLeftString += string[leftIndex++];
+    }
+    if (leftPartFileTitle.clientWidth >= availableLeftWidth) {
+      currLeftString = currLeftString.slice(0, -1);
+      leftPartFileTitle.innerHTML = currLeftString + "...";
+    }
   }
 };
 
