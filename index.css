@@ -2,6 +2,7 @@
   margin: 40px auto;
   display: flex;
   justify-content: center;
+  min-width: max-content;
 }
 
 .image_folder {
@@ -30,14 +31,14 @@
 
 .image_file_title_left {
   overflow: hidden;
-  white-space: nowrap;
+  white-space: pre;
   text-overflow: ellipsis;
-  max-width: 120px;
+  max-width: 115px;
 }
 
 .image_file_title_right {
   overflow: hidden;
-  white-space: nowrap;
+  white-space: pre;
   text-overflow: clip;
   direction: rtl;
   max-width: 115px;
