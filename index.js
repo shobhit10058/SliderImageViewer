@@ -49,8 +49,6 @@ const SplitAndShortenFileName = (imageFileTitleElem, string) => {
   rightIndex++;
 
   let availableLeftWidth = availableWidth - rightPartFileTitle.clientWidth;
-  leftPartFileTitle.style.maxWidth = availableLeftWidth + "px";
-
   let leftIndex = 0;
   while (
     rightIndex >= leftIndex &&
