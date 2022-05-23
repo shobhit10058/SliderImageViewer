@@ -26,7 +26,9 @@
   margin: 0;
   display: flex;
   height: max-content;
-  transform: translateY(50%);
+  position: relative;
+  top: 20px;
+  transform: translateY(-50%);
 }
 
 .image_file_title_left {
