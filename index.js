@@ -91,6 +91,7 @@ const PreviewSelectedImage = () => {
         `;
 
   imageContainer.querySelector("input").addEventListener("change", (event) => {
+    imagesData[sidebarLinePointer].title = event.target.value;
     SplitAndShortenFileName(
       document.querySelector(`#image-${sidebarLinePointer} div`),
       event.target.value
