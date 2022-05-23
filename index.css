@@ -25,6 +25,7 @@
 .image_file_title {
   margin: 0;
   display: flex;
+  width: 100%;
   height: max-content;
   position: relative;
   top: 20px;
@@ -35,15 +36,11 @@
   overflow: hidden;
   white-space: pre;
   text-overflow: ellipsis;
-  max-width: 115px;
 }
 
 .image_file_title_right {
   overflow: hidden;
   white-space: pre;
-  text-overflow: clip;
-  direction: rtl;
-  max-width: 115px;
 }
 
 .image_file_preview {

@@ -11,15 +11,47 @@ const NORMAL_SIDEBAR_FILE_PROP = {
 let imagesData = [];
 let sidebarLinePointer = 0;
 
-const SplitAndShortenFileName = (string) => {
-  const splitIndex = Math.floor(string.length * 0.5);
-  const firstPart = string.substr(0, splitIndex);
-  // inserting a LRM character for fixing bug with direction rtl
-  const secondPart = "&lrm;" + string.substr(splitIndex) + "&lrm;";
-  return `
-    <span class="image_file_title_left"> ${firstPart}</span>
-    <span class="image_file_title_right"> ${secondPart}</span>
-  `;
+const SplitAndShortenFileName = (imageFileTitleElem, string) => {
+  let availableWidth = imageFileTitleElem.clientWidth;
+  let rightPartFileTitle = imageFileTitleElem.querySelector(
+      ".image_file_title_right"
+    ),
+    leftPartFileTitle = imageFileTitleElem.querySelector(
+      ".image_file_title_left"
+    );
+
+  if (!rightPartFileTitle) {
+    rightPartFileTitle = document.createElement("span");
+    rightPartFileTitle.classList.add("image_file_title_right");
+    imageFileTitleElem.append(rightPartFileTitle);
+  } else {
+    rightPartFileTitle.innerHTML = "";
+  }
+
+  if (!leftPartFileTitle) {
+    leftPartFileTitle = document.createElement("span");
+    leftPartFileTitle.classList.add("image_file_title_left");
+    imageFileTitleElem.prepend(leftPartFileTitle);
+  } else {
+    leftPartFileTitle.innerHTML = "";
+  }
+
+  let rightIndex = string.length - 1;
+  while (
+    rightIndex >= 0 &&
+    rightPartFileTitle.clientWidth < availableWidth / 2
+  ) {
+    rightPartFileTitle.innerHTML =
+      string[rightIndex--] + rightPartFileTitle.innerHTML;
+  }
+
+  rightPartFileTitle.innerHTML = rightPartFileTitle.innerHTML.substring(1);
+  rightIndex++;
+
+  leftPartFileTitle.style.maxWidth =
+    availableWidth - rightPartFileTitle.clientWidth + "px";
+
+  leftPartFileTitle.innerHTML = string.substring(0, rightIndex + 1);
 };
 
 const GetData = async () => {
@@ -42,9 +74,10 @@ const PreviewSelectedImage = () => {
         `;
 
   imageContainer.querySelector("input").addEventListener("change", (event) => {
-    imagesData[sidebarLinePointer].title = event.target.value;
-    document.querySelector(`#image-${sidebarLinePointer} div`).innerHTML =
-      SplitAndShortenFileName(event.target.value);
+    SplitAndShortenFileName(
+      document.querySelector(`#image-${sidebarLinePointer} div`),
+      event.target.value
+    );
   });
 };
 
@@ -89,16 +122,14 @@ const InitializeApp = () => {
 
     imagefile.innerHTML = `
             <img src="${image.previewImage}" class="image_file_preview"/>
-            <div class="image_file_title">${SplitAndShortenFileName(
-              image.title
-            )}</div>
+            <div class="image_file_title"></div>
         `;
 
     if (index === sidebarLinePointer) {
       Object.assign(imagefile.style, HIGHLIGHTED_SIDEBAR_FILE_PROP);
     }
-
     imageFolder.append(imagefile);
+    SplitAndShortenFileName(imagefile.querySelector("div"), image.title);
   });
 
   PreviewSelectedImage();
