@@ -73,8 +73,8 @@ const SplitAndShortenFileName = (imageFileTitleElem, string) => {
       rightIndex >= leftIndex &&
       leftPartFileTitle.clientWidth < availableLeftWidth
     ) {
-      leftPartFileTitle.innerHTML = currLeftString + "...";
       currLeftString += string[leftIndex++];
+      leftPartFileTitle.innerHTML = currLeftString + "...";
     }
     if (leftPartFileTitle.clientWidth >= availableLeftWidth) {
       currLeftString = currLeftString.slice(0, -1);
