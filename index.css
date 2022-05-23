@@ -35,7 +35,6 @@
 .image_file_title_left {
   overflow: hidden;
   white-space: pre;
-  text-overflow: ellipsis;
 }
 
 .image_file_title_right {

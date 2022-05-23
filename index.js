@@ -48,10 +48,27 @@ const SplitAndShortenFileName = (imageFileTitleElem, string) => {
   rightPartFileTitle.innerHTML = rightPartFileTitle.innerHTML.substring(1);
   rightIndex++;
 
-  leftPartFileTitle.style.maxWidth =
-    availableWidth - rightPartFileTitle.clientWidth + "px";
+  let availableLeftWidth = availableWidth - rightPartFileTitle.clientWidth;
+  leftPartFileTitle.style.maxWidth = availableLeftWidth + "px";
 
-  leftPartFileTitle.innerHTML = string.substring(0, rightIndex + 1);
+  let leftIndex = 0;
+  while (
+    rightIndex >= leftIndex &&
+    leftPartFileTitle.clientWidth < availableLeftWidth
+  ) {
+    leftPartFileTitle.innerHTML =
+      leftPartFileTitle.innerHTML + string[leftIndex++];
+  }
+
+  if (leftPartFileTitle.clientWidth >= availableLeftWidth) {
+    leftPartFileTitle.innerHTML = leftPartFileTitle.innerHTML.slice(0, -1);
+    leftIndex--;
+  }
+
+  if (leftIndex <= rightIndex) {
+    leftPartFileTitle.innerHTML =
+      leftPartFileTitle.innerHTML.slice(0, -3) + "...";
+  }
 };
 
 const GetData = async () => {
