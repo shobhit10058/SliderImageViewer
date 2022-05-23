@@ -102,6 +102,11 @@ const PreviewSelectedImage = () => {
 
   imageContainer.querySelector("input").addEventListener("change", (event) => {
     imagesData[sidebarLinePointer].title = event.target.value;
+
+    document
+      .querySelector(`#image-${sidebarLinePointer}`)
+      .setAttribute("title", event.target.value);
+
     SplitAndShortenFileName(
       document.querySelector(`#image-${sidebarLinePointer} div`),
       event.target.value
@@ -158,6 +163,7 @@ const InitializeApp = () => {
     }
     imageFolder.append(imagefile);
     SplitAndShortenFileName(imagefile.querySelector("div"), image.title);
+    imagefile.setAttribute("title", image.title);
   });
 
   PreviewSelectedImage();
